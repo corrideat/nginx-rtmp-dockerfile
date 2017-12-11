@@ -62,7 +62,7 @@ RUN ./configure --add-module=/src/nginx-rtmp-module-${RTMP_VERSION} \
   make && \
   make install
 
-RUN useradd -r nginx
+RUN useradd -r nginx && ln -s /logs/nginx.pid /usr/local/nginx/logs/nginx.pid
 
 VOLUME ["/data", "/logs"]
 
