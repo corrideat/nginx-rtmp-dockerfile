@@ -64,6 +64,8 @@ RUN ./configure --add-module=/src/nginx-rtmp-module-${RTMP_VERSION} \
 
 RUN useradd -r nginx
 
+VOLUME ["/data", "/logs"]
+
 ADD nginx.conf /config/nginx.conf
 ADD static /static
 
