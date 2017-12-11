@@ -45,11 +45,24 @@ RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
 # compile nginx
 WORKDIR /src/nginx-${NGINX_VERSION}
 RUN ./configure --add-module=/src/nginx-rtmp-module-${RTMP_VERSION} \
+  --without-mail_pop3_module \
+  --without-mail_imap_module \
+  --without-mail_smtp_module \
+  --without-http_fastcgi_module \
+  --without-http_uwsgi_module \
+  --without-http_scgi_module \
+  --without-http_memcached_module \
+  --with-http_ssl_module \
+  --with-http_stub_status_module \
+  --with-http_gzip_static_module \
+  --with-http_v2_module \
   --conf-path=/config/nginx.conf \
   --error-log-path=/logs/error.log \
   --http-log-path=/logs/access.log && \
   make && \
   make install
+
+RUN useradd -r nginx
 
 ADD nginx.conf /config/nginx.conf
 ADD static /static
