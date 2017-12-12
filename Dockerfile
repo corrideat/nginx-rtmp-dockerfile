@@ -74,6 +74,7 @@ VOLUME ["/data", "/logs", "/ssl", "/htdocs"]
 
 ADD nginx.conf /config/nginx.conf
 ADD rtmp.conf /config/rtmp.conf
+ADD rtmp_paths.conf /config/rtmp_paths.conf
 ADD static /static
 
 WORKDIR /
