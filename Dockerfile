@@ -6,8 +6,10 @@ ENV NGINX_VERSION 1.12.1
 ENV RTMP_SOURCE https://github.com/ut0mt8/nginx-rtmp-module
 ENV RTMP_VERSION 1.2.0
 ENV RTMP_SHA512SUM 16325ab70ff3e741b2c903fd644d98e23a3790eabe787bb27ea7558c0f038cac86cd1e89e51fc597883dcf89a2f875768c673eeec9a6969a6f380c3013a7fc65
+ENV SSL 1
 
 EXPOSE 1935
+EXPOSE 443
 EXPOSE 80
 
 # create directories
@@ -62,11 +64,16 @@ RUN ./configure --add-module=/src/nginx-rtmp-module-${RTMP_VERSION} \
   make && \
   make install
 
-RUN useradd -r nginx && ln -s /logs/nginx.pid /usr/local/nginx/logs/nginx.pid
+RUN useradd -r nginx && \
+  ln -s /logs/nginx.pid /usr/local/nginx/logs/nginx.pid && \
+  mkdir -p /ssl /htdocs && \
+  chown root:root /ssl & \
+  chmod 700 /ssl
 
-VOLUME ["/data", "/logs"]
+VOLUME ["/data", "/logs", "/ssl", "/htdocs"]
 
 ADD nginx.conf /config/nginx.conf
+ADD rtmp.conf /config/rtmp.conf
 ADD static /static
 
 WORKDIR /
