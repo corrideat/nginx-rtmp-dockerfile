@@ -66,8 +66,9 @@ RUN ./configure --add-module=/src/nginx-rtmp-module-${RTMP_VERSION} \
 
 RUN useradd -r nginx && \
   ln -s /logs/nginx.pid /usr/local/nginx/logs/nginx.pid && \
-  mkdir -p /ssl /htdocs && \
-  chown root:root /ssl & \
+  mkdir -p /ssl && \
+  mkdir -p /htdocs && \
+  chown root:root /ssl && \
   chmod 700 /ssl
 
 VOLUME ["/data", "/logs", "/ssl", "/htdocs"]
